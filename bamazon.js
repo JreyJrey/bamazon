@@ -23,15 +23,11 @@ app.listen(PORT, function() {
 });
 
 
-
-database.itemList();
-
-
-setTimeout(function(){ inquire.start(); }, 1000);
-
-
+// now database.itemList() returns a Promise which allows to do
+// the thenable and we have some async control flow now possible :)
+database.itemList().then(function() {
+  inquire.start();
+})
 
 
-
-
-
+// setTimeout(function(){ inquire.start(); }, 1000);
