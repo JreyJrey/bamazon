@@ -3,6 +3,7 @@ var bodyParser = require("body-parser");
 var path = require("path");
 var database = require("./database.js");
 var inquire = require("./questions.js")
+var columnify = require('columnify');
 
 // Sets up the Express App
 // =============================================================
@@ -23,15 +24,15 @@ app.listen(PORT, function() {
 });
 
 
+// now database.itemList() returns a Promise which allows to do
+// the thenable and we have some async control flow now possible :)
+database.itemList().then(function(allProductInfo) {
+  var columns = columnify(allProductInfo, { columnSplitter: ' | '});
+  console.log(columns);
+  inquire.start();
+}).catch((err) => {
+  console.warn("ERROR HUSTON: ", err);
+})
 
-database.itemList();
 
-
-setTimeout(function(){ inquire.start(); }, 1000);
-
-
-
-
-
-
-
+// setTimeout(function(){ inquire.start(); }, 1000);
