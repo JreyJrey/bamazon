@@ -22,7 +22,7 @@ var queries = {
     // file and call inquire.
     return new Promise(function(resolve, reject) {
       connection.query("SELECT * FROM products", function(err, results) {
-        if (err) throw err;
+        if (err) reject(err);
         // console.log(results);
         else if (!results){
           console.log("No Results")

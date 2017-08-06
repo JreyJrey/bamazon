@@ -30,6 +30,8 @@ database.itemList().then(function(allProductInfo) {
   var columns = columnify(allProductInfo, { columnSplitter: ' | '});
   console.log(columns);
   inquire.start();
+}).catch((err) => {
+  console.warn("ERROR HUSTON: ", err);
 })
 
 
