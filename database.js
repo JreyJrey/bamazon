@@ -1,5 +1,4 @@
 var mysql = require("mysql");
-
 var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
@@ -21,7 +20,7 @@ var queries = {
   itemList: function(){
     // return a new Promise so that you can then chain a thenable on your bamazon
     // file and call inquire.
-    return new Promise(function(resovle, reject) {
+    return new Promise(function(resolve, reject) {
       connection.query("SELECT * FROM products", function(err, results) {
         if (err) throw err;
         // console.log(results);
@@ -29,12 +28,13 @@ var queries = {
           console.log("No Results")
         }
         else if(results){
-          console.log(results.length);
-          for(i = 0; i<results.length; i++){
-            // console.log(results[i]);
-          new queries.Product(results[i]);
-          // return true;
-          };
+          console.log(' ARE WE HITTING RESUTLS?');
+          resolve(results);
+          // for(i = 0; i<results.length; i++){
+          //   // console.log(results[i]);
+          // new queries.Product(results[i]);
+          // // return true;
+          // };
         }
       })
     })
@@ -45,7 +45,7 @@ var queries = {
     this.department_name = results.department_name;
     this.price = results.price;
     this.quantity = results.quantity;
-    console.log(this);
+    // console.log(this);
   },
 
   findItemQuantity: function(id){
