@@ -28,13 +28,10 @@ var queries = {
           console.log("No Results")
         }
         else if(results){
-          console.log(' ARE WE HITTING RESUTLS?');
+          // no need to loop through results,
+          // we can just resolve them topside to bamazon and
+          // spit out the table with columnify
           resolve(results);
-          // for(i = 0; i<results.length; i++){
-          //   // console.log(results[i]);
-          // new queries.Product(results[i]);
-          // // return true;
-          // };
         }
       })
     })
