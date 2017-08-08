@@ -15,17 +15,18 @@ var inquire_questions = {
 	    	message: "How many of this item would you like to purchase?"
 	    }])
 	    .then(function(answer) {
-				console.log(' WHAT IS HAPPENIG?', answer);
+				console.log(' WHAT IS HAPPENING?', answer);
 	      // based on their answer, either call the bid or the post functions
-	      var qnty = database.findItemQuantity(parseInt(answer.WhatIsID));
-	      if (answer.HowMany > qnty) {
+	      var qnty = database.findItemQuantity(parseInt(answer.WhatIsID)).then(function(quantity){return JSON.stringify(quantity[0])})
+	      console.log("this is the quantity instock: "+qnty);
+	      if (qnty && answer.HowMany >= qnty) {
 	        console.log("Insufficient Quantity!")
 	        database.itemList();
 			inquire.start();
 	      }
 	      else {
 	        database.subtractQuantity(answer.WhatIsID, answer.HowMany);
-	        database.totalCost();
+	        database.totalCost(answer.WhatIsID, answer.HowMany);
 	      }
 	    });
 	}

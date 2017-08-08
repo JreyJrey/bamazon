@@ -36,6 +36,8 @@ var queries = {
       })
     })
   },
+
+  //Not in use since we are using Columnify now.
   Product: function(results){
     this.id = results.id;
     this.product_name = results.name;
@@ -44,26 +46,58 @@ var queries = {
     this.quantity = results.quantity;
     // console.log(this);
   },
-
+///I am trying to get a promise here:
   findItemQuantity: function(id){
-    connection.query("SELECT * FROM products where id = " + id, function(err, results) {
-      if (err) throw err;
-      return results.quantity
-    })},
+    console.log("findItemQuantity function ID passed: "+id)
+    return new Promise(function(resolve, reject) {
+      connection.query("SELECT quantity FROM products where products.id = "+id, function(err, results) {
+        if (err) reject(err);
+        // console.log(results);
+        else if (!results){
+          console.log("No Results")
+        }
+        else if(results){
+          console.log("Quantity after select: "+ JSON.stringify(results[0].quantity))
+          resolve(parseInt(results[0].quantity));
+        }
+      })
+    })
+  },
 
   subtractQuantity: function(id, qnty){
-    connection.query("Update products set quantity = (quantity -"+qnty+") where id = "+id, function(err, results) {
-      if (err) throw err;
+    return new Promise(function(resolve, reject) {
+      console.log(id);
+      connection.query("Update products set quantity = (quantity -"+qnty+") where id = "+id, function(err, results) {
+        if (err) reject(err);
+        // console.log(results);
+        else if (!results){
+          console.log("No Results")
+        }
+        else if(results){
+         
+          resolve(results);
+        }
+      })
     })
   },
 
   totalCost: function(id, qnty){
-    connection.query("Select price from products where id = "+id, function(err, results) {
-      if (err) throw err;
-      var totalPrice = (results.price * qnty);
-      console.log(totalPrice)
+    return new Promise(function(resolve, reject) {
+      console.log(id);
+      connection.query("Select price from products where id = "+id, function(err, results) {
+        if (err) reject(err);
+        // console.log(results);
+        else if (!results){
+          console.log("No Results")
+        }
+        else if(results){
+          var totalPrice = (results.price * qnty);
+          
+          resolve(totalPrice);
+        }
+      })
     })
-  }
+  },
 
 }
 
